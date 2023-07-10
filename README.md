@@ -80,9 +80,9 @@ Don't forget to change directory to the model weights you want to test. The weig
 If you find this code useful for your research, consider cite our paper:
 ```
 @INPROCEEDINGS{232350,
-    AUTHOR="Zenilton Kleber Patrocínio Jr and João Pedro Oliveira Batisteli and Silvio Guimarães",
+    AUTHOR="João Pedro Oliveira Batisteli and Zenilton Kleber Patrocínio Jr and Silvio Guimarães",
     TITLE="Hierarchical Graph Convolutional Networks for Image Classification",
-    BOOKTITLE="BRACIS 2023 () ",
+    BOOKTITLE="BRACIS 2023",
     ADDRESS="Belo Horizonte, MG",
     DAYS="25-29",
     MONTH="sep",
