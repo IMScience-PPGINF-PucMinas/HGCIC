@@ -49,10 +49,10 @@ def train(epoch, train_loader, device, optimizer, model, loss_fn):
     for batch in train_loader:
         batch.to(device)
         optimizer.zero_grad()
-        pred=model(x=batch.x,
-                    edge_index=batch.edge_index,
-                    edge_attr=batch.edge_attr,
-                    batch_index=batch.batch)
+        pred=model(batch.x,
+                    batch.edge_index,
+                    batch.edge_attr,
+                    batch.batch)
 
         loss = loss_fn(pred, batch.y.reshape(len(batch),10))
         loss.backward()
@@ -79,7 +79,8 @@ def main():
     train_loader = DataLoader(data, batch_size=BATCH_SIZE, sampler=train_sampler)
     val_loader = DataLoader(data, batch_size=int(BATCH_SIZE), sampler=valid_sampler)
     
-    model = Loop_net(node_feature_size=data[0].x.shape[1], edge_feature_size=data[0].edge_attr.shape[1], num_classes=data[0].y.shape[0], embedding_size=70)  
+    model = Loop_net(node_feature_size=data[0].x.shape[1], edge_feature_size=data[0].edge_attr.shape[1], num_classes=data[0].y.shape[0], embedding_size=70)
+    model = model.to(device)    
     print(f"Number of parameters: {count_parameters(model)}") 
     
     
@@ -104,7 +105,7 @@ def main():
             mlflow.log_metric(key="val loss", value=float(epoch_val_loss), step=epoch)
             if(epoch_val_accu >= best_accu):
                 best_accu = epoch_val_accu
-                torch.save(model.state_dict(), "weights/BRACIS/hierarchy_adj.pth")
+                torch.save(model.state_dict(), "weights/hierarchy_adj.pth")
             scheduler.step(epoch_val_accu)
 
     print("Done")

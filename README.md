@@ -64,7 +64,7 @@ mlflow.set_experiment("Experiment 1")
 The weight directory and file name can be changed and its default setting is:
 
 ```python:
-torch.save(model.state_dict(), "weights/BRACIS/hierarchy_adj.pth")
+torch.save(model.state_dict(), "weights/hierarchy_adj.pth")
 ```
 
 2. To perform model test run:
