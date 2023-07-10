@@ -228,13 +228,12 @@ def superpixel_hierarchy(image, n_nodes, knn=False, k_neighbors=8, complete=Fals
 
     nb_tree, nb_altitudes = hg.watershed_hierarchy_by_area(superpixel_graph, edge_weights)
     tree, node_map = hg.tree_2_binary_tree(nb_tree)
-    # tree = nb_tree
     altitudes = nb_altitudes[node_map]
     
     #               CREATE THE COO MATRIX                       #
     n_edges = tree.root()
-    num_nodes = np.max(tree.root()+1) #número de vértices
-    nodes = { #inicializa a lista de vértices
+    num_nodes = np.max(tree.root()+1) 
+    nodes = { 
         node: {
             "rgb_list": [],
             "pos_list": [],
@@ -245,8 +244,8 @@ def superpixel_hierarchy(image, n_nodes, knn=False, k_neighbors=8, complete=Fals
             "regions": [],
         } for node in range(num_nodes)
     }
-    height = image.shape[0] #altura da imagem   
-    width = image.shape[1]  #largura da imagem
+    height = image.shape[0]  
+    width = image.shape[1]  
     mask_n=0
     #percorre os vertices que que sao superpixels
     for y in range(height):
@@ -293,12 +292,12 @@ def superpixel_hierarchy(image, n_nodes, knn=False, k_neighbors=8, complete=Fals
         # rgb
         rgb_mean = np.mean(nodes[node]["rgb_list"], axis=0) #média de RGB
         pos_mean = np.mean(nodes[node]["pos_list"], axis=0) #média da posição dos pixels pertecentes ao superpixel
-        features = np.concatenate(  #shape = (159,)
+        features = np.concatenate(  
         [
-            np.reshape(rgb_mean, -1),   #3 features (1 para cada canal)
+            np.reshape(rgb_mean, -1),   
             nodes[node]["histogram"],
             np.reshape(nodes[node]["altitude"],-1),
-            np.reshape(pos_mean, -1),   #2 features (1 para cada eixo)
+            np.reshape(pos_mean, -1),   
             nodes[node]["texture_features"],
             nodes[node]["props_features"],
         ]
@@ -327,10 +326,9 @@ def superpixel_hierarchy(image, n_nodes, knn=False, k_neighbors=8, complete=Fals
                 #source to target
                 edges[j,0] = i                                      
                 edges[j,1] = min_indices[k]
-                edge_features[j] = dist[min_indices[k]] # math.exp(-(dist[min_indices[k]]/(mean**2)))#
+                edge_features[j] = dist[min_indices[k]] 
                 j+=1
-        # sort = np.concatenate((edges.astype(NP_TORCH_FLOAT_DTYPE), edge_features),axis=1)
-        # sorted = np.sort(sort.view([('', sort.dtype)] * sort.shape[0 if sort.flags['F_CONTIGUOUS'] else -1]), order=['f0','f1'], axis=0) 
+        
     else: 
         i=0                                     
         edges = np.zeros([(2*(n_edges)),2]).astype(NP_TORCH_LONG_DTYPE)
@@ -353,7 +351,6 @@ def superpixel_hierarchy(image, n_nodes, knn=False, k_neighbors=8, complete=Fals
 def main():  #USE FOR DEBUG THE GRAPH TRANSFORMATION
     # dset = CIFAR10("data/raw", download=True, transform=be_np, train=False)
     # a,b,c,d = superpixel_hierarchy(image=dset[0][0], n_nodes=20, knn=True, self_loops=False, k_neighbors=8, complete=False)
-
     print("")
     
 
